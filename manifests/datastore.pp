@@ -18,11 +18,6 @@ class openshift_origin::datastore {
   class { 'openshift_origin::firewall::mongodb': } ->
   anchor { 'openshift_origin::datastore_end': }
 
-  package { ['mongodb', 'mongodb-server', 'rubygem-open4']:
-    ensure  => present,
-    require => Class['openshift_origin::install_method'],
-  }
-
   $port = $openshift_origin::mongodb_port
 
   class {'::mongodb::server':
