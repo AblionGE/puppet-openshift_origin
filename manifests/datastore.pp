@@ -31,20 +31,23 @@ class openshift_origin::datastore {
     name          => $openshift_origin::mongodb_admin_user,
     ensure        => present,
     password_hash => mongodb_password($openshift_origin::mongodb_admin_user,$openshift_origin::mongodb_admin_password),
+    database      => $openshift_origin::mongodb_name,
     roles         => ['readWrite', 'dbAdmin'],
     tries         => 10,
     require       => Class['mongodb::server'],
   }
+
   mongodb_user { 'mongodb_broker_user':
     name          => $openshift_origin::mongodb_broker_user,
     ensure        => present,
     password_hash => mongodb_password($openshift_origin::mongodb_broker_user,$openshift_origin::mongodb_broker_password),
+    database      => $openshift_origin::mongodb_name,
     roles         => ['readWrite'],
     tries         => 10,
     require       => Class['mongodb::server'],
   }
 
-  mongodb::db { $openshift_origin::mongodb_name :
+  mongodb::db { $openshift_origin::mongodb_name:
     user          => $openshift_origin::mongodb_broker_user,
     password_hash => mongodb_password($openshift_origin::mongodb_broker_user,$openshift_origin::mongodb_broker_password),
   }
