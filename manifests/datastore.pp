@@ -47,12 +47,6 @@ class openshift_origin::datastore {
     require       => Class['mongodb::server'],
   }
 
-  mongodb::db { $openshift_origin::mongodb_name:
-    user          => $openshift_origin::mongodb_broker_user,
-    password_hash => mongodb_password($openshift_origin::mongodb_broker_user,$openshift_origin::mongodb_broker_password),
-  }
-    
-
 #  file { 'mongo setup script':
 #    ensure  => present,
 #    path    => '/usr/sbin/oo-mongo-setup',
